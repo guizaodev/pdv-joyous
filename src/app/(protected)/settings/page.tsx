@@ -1,17 +1,18 @@
-import { auth, signOut } from "@/auth";
-import { J } from "styled-icons/fa-solid";
+"use client";
+import { logoutAction } from "@/actions/logoutAction";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
-const SettingsPage = async() => {
-    const session = await auth();
+const SettingsPage = () => {
+    const user = useCurrentUser();
 
+    const onClick = () => {
+        logoutAction();
+    }
+    
     return (
         <div>
-           {JSON.stringify(session)}
-           <form action={async() => {
-            "use server";
-                await signOut();
-           }}>
-                <button type="submit">
+           <form >
+                <button onClick={onClick} type="submit">
                     Sign Out
                 </button>
            </form>
