@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import "./globals.css";
 import StyledComponentsRegistry from "./registry";
 import Navbar from "@/components/ui/navbar";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,14 +22,15 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <html lang="en">
-        <body className={inter.className}>
           <StyledComponentsRegistry>
-            <Navbar />
-            {children}
+            <html lang="en">
+              <body className={inter.className}>
+                <Toaster richColors />
+                <Navbar />
+                {children}
+              </body>
+            </html>
           </StyledComponentsRegistry>
-        </body>
-      </html>
     </SessionProvider>
   );
 }

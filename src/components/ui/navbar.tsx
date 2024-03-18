@@ -44,9 +44,15 @@ const Navbar = () => {
                 <Logo src={`/logos/Logo-joyous.svg`} alt="logo"/>
             </a>
             <Pages>
+            {user 
+                ?
+                <LogoutButton>
+                    <Button color='#0561FF'>Logout</Button>
+                </LogoutButton>
+                :
                 <LoginButton>
-                    { user ? <LogoutButton>Logout</LogoutButton> : <Button color='#0561FF'>Login</Button>}
-                </LoginButton>
+                    <Button color='#0561FF'>Login</Button>
+                </LoginButton>}
             </Pages>
         </Nav>
     );

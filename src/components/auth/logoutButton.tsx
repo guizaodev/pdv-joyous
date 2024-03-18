@@ -15,9 +15,9 @@ export const LogoutButton = ({
     }
 
     return(
-        <button color="#0561FF" onClick={onClick}>
-            { children }
-        </button>
+        <span onClick={onClick}>
+            {children}
+        </span>
     )
 }
 
