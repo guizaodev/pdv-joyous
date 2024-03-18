@@ -4,7 +4,7 @@ import { theme } from '@/theme';
 
 const Card = styled.div`
     background-color: ${theme.colors.white1};
-    color: black;
+    color: ${theme.colors.black1};
     padding: 1rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

@@ -33,9 +33,10 @@ export const FormInput = styled.input`
 export const FormButton = styled.button`
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    background-color: #007bff;
-    color: #fff;
+    background-color: ${(props) => props.disabled ? theme.colors.main2 : theme.colors.main1};
+    color: ${theme.colors.white1};
     border: none;
+    font-weight: 600;
     cursor: pointer;
 `;
 export const StyledForm = styled.form`

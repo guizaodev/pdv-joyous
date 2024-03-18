@@ -4,32 +4,33 @@ import { useState, useTransition } from 'react';
 import { useForm } from "react-hook-form"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardWrapper } from "./cardWrapper"
-import { LoginSchema } from '@/schemas';
+import { RegisterSchema } from '@/schemas';
 import { StyledForm, FormGroup, FormLabel, FormInput, FormButton } from '../ui/form';
 import { theme } from '@/theme';
 import { FormError } from '../formError';
 import { FormSuccess } from '../formSuccess';
-import { loginAction } from '@/actions/loginAction';
+import { registerAction } from '@/actions/registerAction';
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
     const [error, setError] = useState<string | undefined>('');
     const [success, setSuccess] = useState<string | undefined>('');
     const [isPending, startTransition] = useTransition();
 
-    const { handleSubmit, register, formState: {errors}} = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
+    const { handleSubmit, register, formState: {errors}} = useForm<z.infer<typeof RegisterSchema>>({
+        resolver: zodResolver(RegisterSchema),
         defaultValues: {
             email: '',
             password: '',
+            name: '',
         },
     })
 
-    const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+    const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
         setError('');
         setSuccess('');
 
         startTransition(() => {
-            loginAction(data)
+            registerAction(data)
                 .then((res) => {
                     setError(res.error);
                     setSuccess(res.success);
@@ -39,11 +40,16 @@ export const LoginForm = () => {
 
     return (
         <CardWrapper
-            headerLabel="Welcome to the Auth Page!"
-            backButtonLabel="Don't have an account?"
-            backButtonHref="/auth/register"
+            headerLabel="Create an account"
+            backButtonLabel="Already have an account?"
+            backButtonHref="/auth/login"
         >
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
+                <FormGroup>
+                    <FormLabel>Name</FormLabel>
+                    <FormInput disabled={isPending} {...register("name")} placeholder='John Doe' />
+                    {errors.name && <p style={{color: theme.colors.warning1}}>{errors.name.message}</p>}
+                </FormGroup>
                 <FormGroup>
                     <FormLabel>Email</FormLabel>
                     <FormInput disabled={isPending} {...register("email")} placeholder='john.doe@example.com' />
@@ -56,7 +62,7 @@ export const LoginForm = () => {
                 </FormGroup>
                 <FormError message={error} />
                 <FormSuccess message={success} />
-                <FormButton disabled={isPending} type="submit">Login</FormButton>
+                <FormButton disabled={isPending} type="submit">Register</FormButton>
             </StyledForm>
         </CardWrapper>
     )
