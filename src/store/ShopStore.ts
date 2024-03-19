@@ -1,10 +1,11 @@
 import { FSProduct, FSProducts } from '@/types/fake-store';
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 type ShopStore = {
     products: FSProducts;
     updateProducts: (products: FSProducts) => void;
+    getProductById: (id: number) => FSProduct | undefined;
     addProduct: (item: FSProduct) => void;
     removeProduct: (item: number) => void;
     editProduct: (productId: number, newData: Partial<FSProduct>) => void;
@@ -12,9 +13,10 @@ type ShopStore = {
 
 export const useShopStore = create(
     persist<ShopStore>(
-        (set) => ({
+        (set, get) => ({
             products: [],
             updateProducts: (products) => set({ products }),
+            getProductById: (id) => get().products.find((product) => product.id === id),
             addProduct: (newProduct) =>
             set((state) => ({
               products: [...state.products, newProduct],
@@ -32,6 +34,7 @@ export const useShopStore = create(
         }),
         {
             name: "shop-store",
+            storage: createJSONStorage(() => localStorage)
         }
         )
 );

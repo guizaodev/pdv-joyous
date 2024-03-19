@@ -30,6 +30,15 @@ export const FormInput = styled.input`
     border-radius: 0.5rem;
 `;
 
+export const FormSelector = styled.select`
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: ${theme.colors.white1};
+    color: ${theme.colors.black1};
+    border: 1px solid ${theme.colors.black1};
+    border-radius: 0.5rem;
+`;
+
 export const FormButton = styled.button`
     padding: 0.5rem 1rem;
     font-size: 1rem;

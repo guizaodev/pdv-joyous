@@ -9,20 +9,26 @@ import Button from "@/components/ui/button";
 import { useCartStore } from "@/store/CartStore";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { toast } from "sonner";
+import { useShopStore } from "@/store/ShopStore";
+import { useHasHydrated } from "@/hooks/useHasHydrated";
 
 const ProductPage = ({ params}: { params: {id: string}}) => {
     const user = useCurrentUser();
+    const hasHydrated = useHasHydrated();
     const [addToCart, cart] = useCartStore((state) => [state.addToCart, state.cart]);
+    const [ products, getProductById ] = useShopStore((state) => [state.products, state.getProductById]);
 
-    const getProduct = async () => {
-        const res = await axios.get<FSProduct>(`https://fakestoreapi.com/products/${params.id}`);
-        return res.data;
-      }
+    // const getProduct = async () => {
+    //     const res = await axios.get<FSProduct>(`https://fakestoreapi.com/products/${params.id}`);
+    //     return res.data;
+    //   }
 
-    const { data: product} = useQuery({
-        queryKey: ['product'],
-        queryFn: getProduct,
-    })
+    // const { data: product} = useQuery({
+    //     queryKey: ['product'],
+    //     queryFn: getProduct,
+    // })
+
+    const product = getProductById(parseInt(params.id));
 
     const handleAddToCart = async(prod: FSProduct) => {
         await addToCart(prod);
@@ -32,7 +38,7 @@ const ProductPage = ({ params}: { params: {id: string}}) => {
     return (
         <Container>
             {
-                product && (
+                hasHydrated && product && (
                     <>
                     <ProductContainer>
                         <ProductColumn>

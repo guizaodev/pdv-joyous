@@ -37,7 +37,7 @@ const Modal = ({children, ButtonText}: ModalProps) => {
 
   return (
     <div>
-      <Button onClick={openModal}>{ButtonText}</Button>
+      <Button color={theme.colors.primary1} onClick={openModal}>{ButtonText}</Button>
       {isOpen && (
         <ModalContainer>
           <ModalContent>

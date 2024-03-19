@@ -11,7 +11,10 @@ import Link from "next/link";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/CartStore";
-import { useShopStore } from "@/store/shopStore";
+import { useShopStore } from "@/store/ShopStore";
+import Modal from "@/components/ui/modal";
+import { Add } from "styled-icons/crypto";
+import { AddProductForm } from "@/components/ui/products/addProductForm";
 
 const Banner = styled.img`
   max-width: 100%;
@@ -58,7 +61,9 @@ export default function Home() {
       <div style={{backgroundColor: theme.colors.main1, width: '100vw', justifyContent: 'center', display: 'flex'}}>
         <Banner src="/images/banner.png" alt="logo" />
       </div>
-
+      <div style={{marginTop: 20, width: '60%', justifyContent: 'flex-start', display: 'flex'}}>
+        <AddProductForm />
+      </div>
       {
         categories && categories.map((category)=>{
           return (

@@ -22,10 +22,6 @@ const CartPage = () => {
   }
     return (
       <Container>
-        <Modal>
-          <h2>Modal Content</h2>
-          <p>This is the content of the modal.</p>
-        </Modal>
         <CartContainer>
           <CartColumn style={{minWidth: 500}}>
             <h2>Cart Items</h2>
