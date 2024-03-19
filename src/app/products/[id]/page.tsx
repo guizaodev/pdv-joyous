@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useShopStore } from "@/store/ShopStore";
 import { useHasHydrated } from "@/hooks/useHasHydrated";
 import { UpdateProductForm } from "@/components/ui/products/updateProductForm";
+import { theme } from "@/theme";
 
 const ProductPage = ({ params}: { params: {id: string}}) => {
     const user = useCurrentUser();
@@ -41,9 +42,10 @@ const ProductPage = ({ params}: { params: {id: string}}) => {
             {
                 hasHydrated && product && (
                     <>
-                    <div style={{marginTop: 20, backgroundColor: 'red', width: '60%', justifyContent: 'flex-start', display: 'flex'}}>
+                    <div style={{marginTop: 20, width: '50%', justifyContent: 'space-between', display: 'flex'}}>
 
                     <UpdateProductForm product={product} />
+                    <Button color={theme.colors.warning1} onClick={()=>{}}>Delete product</Button>
                     </div>
                     <ProductContainer>
                         <ProductColumn>
