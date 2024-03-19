@@ -1,7 +1,7 @@
 "use client";
 
 import { logoutAction } from "@/actions/logoutAction";
-import Button from "../ui/button";
+import { useCartStore } from "@/store/CartStore";
 
 interface LogoutButtonProps {
     children?: React.ReactNode;
@@ -10,7 +10,9 @@ interface LogoutButtonProps {
 export const LogoutButton = ({
     children
 }:LogoutButtonProps) => {
+    const [resetCart] = useCartStore((state) => [state.resetCart]);
     const onClick = () => {
+        resetCart(); 
         logoutAction();
     }
 

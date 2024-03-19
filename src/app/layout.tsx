@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import "./globals.css";
-import StyledComponentsRegistry from "./registry";
 import Navbar from "@/components/ui/navbar";
 import { Toaster } from "sonner";
+import PrimeProvider from "@/services/providers";
+import '@smastrom/react-rating/style.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,18 +19,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
   return (
-    <SessionProvider session={session}>
-          <StyledComponentsRegistry>
-            <html lang="en">
-              <body className={inter.className}>
-                <Toaster richColors />
-                <Navbar />
-                {children}
-              </body>
-            </html>
-          </StyledComponentsRegistry>
-    </SessionProvider>
+    <PrimeProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <Toaster richColors />
+          <Navbar />
+          {children}
+        </body>
+      </html>
+    </PrimeProvider>
   );
 }

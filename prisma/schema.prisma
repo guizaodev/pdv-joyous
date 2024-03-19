@@ -26,6 +26,7 @@ model User {
   accounts Account[]
 }
 
+// Not implemented
 model Account {
   id String @id @default(cuid())
   userId String
