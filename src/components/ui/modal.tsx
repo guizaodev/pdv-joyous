@@ -27,9 +27,10 @@ const ModalContent = styled.div`
 interface ModalProps {
   children: React.ReactNode;
   ButtonText: string;
+  ButtonColor?: string;
 }
 
-const Modal = ({children, ButtonText}: ModalProps) => {
+const Modal = ({children, ButtonText, ButtonColor}: ModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
@@ -37,7 +38,7 @@ const Modal = ({children, ButtonText}: ModalProps) => {
 
   return (
     <div>
-      <Button color={theme.colors.primary1} onClick={openModal}>{ButtonText}</Button>
+      <Button color={ButtonColor} onClick={openModal}>{ButtonText}</Button>
       {isOpen && (
         <ModalContainer>
           <ModalContent>

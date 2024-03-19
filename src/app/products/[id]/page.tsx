@@ -11,6 +11,7 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { toast } from "sonner";
 import { useShopStore } from "@/store/ShopStore";
 import { useHasHydrated } from "@/hooks/useHasHydrated";
+import { UpdateProductForm } from "@/components/ui/products/updateProductForm";
 
 const ProductPage = ({ params}: { params: {id: string}}) => {
     const user = useCurrentUser();
@@ -40,6 +41,10 @@ const ProductPage = ({ params}: { params: {id: string}}) => {
             {
                 hasHydrated && product && (
                     <>
+                    <div style={{marginTop: 20, backgroundColor: 'red', width: '60%', justifyContent: 'flex-start', display: 'flex'}}>
+
+                    <UpdateProductForm product={product} />
+                    </div>
                     <ProductContainer>
                         <ProductColumn>
 
@@ -50,7 +55,7 @@ const ProductPage = ({ params}: { params: {id: string}}) => {
                             <ProductInfo>
                                 <ProductTitle>{product.title}</ProductTitle>
                                 <div style={{display: 'flex', alignItems: 'center'}}>
-                                    <Rating style={{height: 20, width: 100}} value={product.rating.rate} readOnly />
+                                    <Rating style={{height: 20, width: 100, position: 'relative'}} value={product.rating.rate} readOnly />
                                     <ProductCategory> {product.rating.rate} ({product.rating.count} votes)</ProductCategory>
                                 </div>
                                 <ProductCategory>Category: {product.category}</ProductCategory>

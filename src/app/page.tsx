@@ -4,7 +4,7 @@ import Container from "@/components/ui/container";
 import styled from "styled-components";
 import { theme } from "@/theme";
 import { ProductSession, ProductSessionTitle, ProductsContainer, ProductCard, ProductImage, ProductTitle, ProductPrice } from "@/components/ui/products/productSession";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { FSCategories, FSProduct, FSProducts } from "@/types/fake-store";
 import Link from "next/link";
@@ -15,6 +15,8 @@ import { useShopStore } from "@/store/ShopStore";
 import Modal from "@/components/ui/modal";
 import { Add } from "styled-icons/crypto";
 import { AddProductForm } from "@/components/ui/products/addProductForm";
+import { useProductsData } from "@/hooks/useProductsData";
+import { useHasHydrated } from "@/hooks/useHasHydrated";
 
 const Banner = styled.img`
   max-width: 100%;
@@ -23,6 +25,8 @@ const Banner = styled.img`
 
 export default function Home() {
   const user = useCurrentUser();
+  const hasHydrated = useHasHydrated();
+  // const {data: prod} = useProductsData();
   const [addToCart, cart] = useCartStore((state) => [state.addToCart, state.cart]);
   const [ updateProducts, products, addProduct ] = useShopStore((state) => [state.updateProducts, state.products, state.addProduct]);
 
@@ -30,6 +34,7 @@ export default function Home() {
     const res = await axios.get<FSCategories>('https://fakestoreapi.com/products/categories/');
     return res.data;
   }
+  //console.log(prod);
 
   const { data: categories } = useQuery({
     queryKey: ['categories'],
@@ -39,7 +44,7 @@ export default function Home() {
   const getProducts = async () => {
     const res = await axios.get<FSProducts>('https://fakestoreapi.com/products/');
 
-    if(products.length === 0){
+    if(hasHydrated && res.data.length > 0){
       console.log(products);
       updateProducts(res.data);
     }

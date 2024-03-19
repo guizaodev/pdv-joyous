@@ -12,37 +12,38 @@ import { loginAction } from '@/actions/loginAction';
 import Modal from '../modal';
 import { useShopStore } from '@/store/ShopStore';
 import { toast } from 'sonner';
-import { FSProducts } from '@/types/fake-store';
+import { FSProduct, FSProducts } from '@/types/fake-store';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const AddProductForm = () => {
+interface UpdateProductFormProps {
+    product: FSProduct;
+}
+
+export const UpdateProductForm = ({product}: UpdateProductFormProps) => {
     const [error, setError] = useState<string | undefined>('');
     const [success, setSuccess] = useState<string | undefined>('');
     const [isPending, startTransition] = useTransition();
-    const [ addProduct, products ] = useShopStore((state) => [state.addProduct, state.products]);
-
-    const generateUniqueRandomId = (productsArray: FSProducts) => { let randomId:number; do { randomId = Math.floor(Math.random() * 1000) + 1; } while (productsArray.some(product => product.id === randomId)); return randomId; };
+    const [ addProduct, products, getProductById ] = useShopStore((state) => [state.addProduct, state.products, state.getProductById]);
 
     const { handleSubmit, register, formState: {errors}} = useForm<z.infer<typeof ProductSchema>>({
         resolver: zodResolver(ProductSchema),
         defaultValues: {
-            id: generateUniqueRandomId(products),
-            title: '',
-            price: 0,
-            description: '',
-            category: '',
-            image: '',
+            title: product?.title,
+            price: product?.price,
+            description: product?.description,
+            category: product?.category,
+            image: product?.image,
             rating: {
-                rate: 0,
-                count: 0
+                rate: product?.rating.rate,
+                count: product?.rating.count
             }
         },
     })
 
-    const addProducts = async () => {
-        const res = await axios.post<FSProducts>('https://fakestoreapi.com/products/',{
-            id: generateUniqueRandomId(products),
+    const updateProduct = async () => {
+        const res = await axios.put<FSProducts>(`https://fakestoreapi.com/products/${product.id}`,{
+            id: '',
             title: '',
             description: '',
             category: '',
@@ -57,7 +58,7 @@ export const AddProductForm = () => {
       }
 
     const { mutateAsync: addProductFn } = useMutation({
-        mutationFn: addProducts,
+        mutationFn: updateProduct,
     });
 
     async function handleAddProduct(data: z.infer<typeof ProductSchema>) {
@@ -81,7 +82,7 @@ export const AddProductForm = () => {
     }
 
     return (
-        <Modal ButtonText="Add product">
+        <Modal ButtonText="Edit product" ButtonColor={theme.colors.primary2}>
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
                     <FormLabel>Product name</FormLabel>
@@ -116,7 +117,7 @@ export const AddProductForm = () => {
                 </FormGroup>
                 <FormError message={error} />
                 <FormSuccess message={success} />
-                <FormButton disabled={isPending} type="submit">Add</FormButton>
+                <FormButton disabled={isPending} type="submit">Update</FormButton>
             </StyledForm>
         </Modal>
     )
