@@ -73,7 +73,6 @@ export const AddProductForm = () => {
     }
 
     const onSubmit = (data: z.infer<typeof ProductSchema>) => {
-        console.log(data);
         startTransition(() => {
             addProduct(data);
             toast.success('Product added successfully.');
@@ -81,7 +80,7 @@ export const AddProductForm = () => {
     }
 
     return (
-        <Modal ButtonText="Add product">
+        <Modal ButtonText="Add product" ButtonColor={theme.colors.primary1}>
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
                     <FormLabel>Product name</FormLabel>

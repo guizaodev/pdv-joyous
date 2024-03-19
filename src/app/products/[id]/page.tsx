@@ -13,6 +13,8 @@ import { useShopStore } from "@/store/ShopStore";
 import { useHasHydrated } from "@/hooks/useHasHydrated";
 import { UpdateProductForm } from "@/components/ui/products/updateProductForm";
 import { theme } from "@/theme";
+import { RoleGate } from "@/components/auth/roleGate";
+import { DeleteProduct } from "@/components/ui/products/deleteProduct";
 
 const ProductPage = ({ params}: { params: {id: string}}) => {
     const user = useCurrentUser();
@@ -42,11 +44,13 @@ const ProductPage = ({ params}: { params: {id: string}}) => {
             {
                 hasHydrated && product && (
                     <>
-                    <div style={{marginTop: 20, width: '50%', justifyContent: 'space-between', display: 'flex'}}>
+                    <RoleGate allowedRole="ADMIN">
+                        <div style={{marginTop: 20, width: '50%', justifyContent: 'space-between', display: 'flex'}}>
 
-                    <UpdateProductForm product={product} />
-                    <Button color={theme.colors.warning1} onClick={()=>{}}>Delete product</Button>
-                    </div>
+                        <UpdateProductForm product={product} />
+                        <DeleteProduct product={product} />
+                        </div>
+                    </RoleGate>
                     <ProductContainer>
                         <ProductColumn>
 

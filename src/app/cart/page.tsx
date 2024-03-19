@@ -10,9 +10,11 @@ import Button from "@/components/ui/button";
 import { toast } from "sonner";
 import { ExtendedFSProduct } from "@/types/fake-store";
 import Modal from "@/components/ui/modal";
+import { useShopStore } from "@/store/ShopStore";
 
 const CartPage = () => {
   const [ cart, removeFromCart, addToCart, resetCart ] = useCartStore((state) => [state.cart, state.removeFromCart, state.addToCart, state.resetCart]);
+  const [ getProductById ] = useShopStore((state) => [state.getProductById]);
 
   const handlePayment = (cart: ExtendedFSProduct[]) => {
     if(cart.reduce((total, item) => total + (item.quantity*item.price), 0) != 0){
@@ -30,7 +32,7 @@ const CartPage = () => {
               <CartItem key={item.id}>
                 <CartItemImage src={item.image} alt={item.title} />
                 <CartItemTitle>{item.title.substring(0, 20)} ...</CartItemTitle>
-                <CartItemPrice>$ {item.price}</CartItemPrice>
+                <CartItemPrice>$ {getProductById(item.id)!.price}</CartItemPrice>
                 <CartItemQuantity>
                   <DashSquareFill onClick={() => removeFromCart(item)} size={30} color={theme.colors.main1} />
                   <span>{item.quantity}</span>
@@ -43,7 +45,7 @@ const CartPage = () => {
           </CartColumn>
           <CartColumn style={{minWidth: 300, justifyContent: 'space-between'}}>
             <h2>Cart Summary</h2>
-            <h3>Total: {cart.reduce((total, item) => total + (item.quantity*item.price), 0).toFixed(2)}</h3>
+            <h3>Total: {cart.reduce((total, item) => total + (item.quantity*getProductById(item.id)!.price), 0).toFixed(2)}</h3>
             <Button color={theme.colors.main1} style={{width: '100%'}} onClick={()=>handlePayment(cart)}>Checkout</Button>
           </CartColumn>
         </CartContainer>

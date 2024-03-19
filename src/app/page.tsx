@@ -4,7 +4,7 @@ import Container from "@/components/ui/container";
 import styled from "styled-components";
 import { theme } from "@/theme";
 import { ProductSession, ProductSessionTitle, ProductsContainer, ProductCard, ProductImage, ProductTitle, ProductPrice } from "@/components/ui/products/productSession";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FSCategories, FSProduct, FSProducts } from "@/types/fake-store";
 import Link from "next/link";
@@ -12,11 +12,10 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/CartStore";
 import { useShopStore } from "@/store/ShopStore";
-import Modal from "@/components/ui/modal";
-import { Add } from "styled-icons/crypto";
 import { AddProductForm } from "@/components/ui/products/addProductForm";
-import { useProductsData } from "@/hooks/useProductsData";
 import { useHasHydrated } from "@/hooks/useHasHydrated";
+import { UserRole } from "@prisma/client";
+import { RoleGate } from "@/components/auth/roleGate";
 
 const Banner = styled.img`
   max-width: 100%;
@@ -67,7 +66,9 @@ export default function Home() {
         <Banner src="/images/banner.png" alt="logo" />
       </div>
       <div style={{marginTop: 20, width: '60%', justifyContent: 'flex-start', display: 'flex'}}>
-        <AddProductForm />
+        <RoleGate allowedRole={UserRole.ADMIN}>
+          <AddProductForm />
+        </RoleGate>
       </div>
       {
         categories && categories.map((category)=>{

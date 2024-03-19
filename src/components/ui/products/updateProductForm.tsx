@@ -24,19 +24,20 @@ export const UpdateProductForm = ({product}: UpdateProductFormProps) => {
     const [error, setError] = useState<string | undefined>('');
     const [success, setSuccess] = useState<string | undefined>('');
     const [isPending, startTransition] = useTransition();
-    const [ addProduct, products, getProductById ] = useShopStore((state) => [state.addProduct, state.products, state.getProductById]);
+    const [ editProduct ] = useShopStore((state) => [state.editProduct]);
 
     const { handleSubmit, register, formState: {errors}} = useForm<z.infer<typeof ProductSchema>>({
         resolver: zodResolver(ProductSchema),
         defaultValues: {
-            title: product?.title,
-            price: product?.price,
-            description: product?.description,
-            category: product?.category,
-            image: product?.image,
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            description: product.description,
+            category: product.category,
+            image: product.image,
             rating: {
-                rate: product?.rating.rate,
-                count: product?.rating.count
+                rate: product.rating.rate,
+                count: product.rating.count
             }
         },
     })
@@ -61,23 +62,11 @@ export const UpdateProductForm = ({product}: UpdateProductFormProps) => {
         mutationFn: updateProduct,
     });
 
-    async function handleAddProduct(data: z.infer<typeof ProductSchema>) {
-        try {
-            const res = await addProduct(data);
-            setSuccess('Product added successfully.');
-            toast.success('Product added successfully.');
-            return res;
-        } catch (error) {
-            setError('Error adding product.');
-            toast.error('Error adding product.');
-        }
-    }
-
     const onSubmit = (data: z.infer<typeof ProductSchema>) => {
         console.log(data);
         startTransition(() => {
-            addProduct(data);
-            toast.success('Product added successfully.');
+            editProduct(data.id, data);
+            toast.success('Product updated successfully.');
         });
     }
 

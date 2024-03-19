@@ -22,7 +22,7 @@ export const RegisterSchema = z.object({
 });
 
 export const ProductSchema = z.object({
-    id: z.number().int().min(1, {
+    id: z.coerce.number().int().min(1, {
         message: "Id is required"
     }),
     title: z.string().min(1,{
