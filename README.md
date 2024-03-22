@@ -16,6 +16,15 @@ This project aims to create a POS to evaluate technical capabilities in React.js
 - React Hook-Form
 - Zod
 
+## Requirements
+
+You need to have:
+
+```bash
+  node - 20.10.0 or higher
+  npm - 10.2.3 or higher
+```
+
 ## Usage
 
 There are two users already created. You can choose to use them or create a new one.
