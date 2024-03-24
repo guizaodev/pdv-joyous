@@ -15,6 +15,7 @@ This project aims to create a POS to evaluate technical capabilities in React.js
 - Styled-components
 - React Hook-Form
 - Zod
+- Auth.js
 
 ## Requirements
 
