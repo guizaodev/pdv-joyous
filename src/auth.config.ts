@@ -26,7 +26,4 @@ export default {
             }
         })
     ],
-    trustedHosts: [
-        'testes-tecnicos-front-pdv-hjka8t-e9f386-146-190-115-206.traefik.me',
-    ],
 } satisfies NextAuthConfig
