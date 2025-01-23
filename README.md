@@ -5,7 +5,7 @@ This project aims to create a POS to evaluate technical capabilities in React.js
 
 ## Key Features
 
-- [Under construction...]
+- 🚧 [Under construction...] 🚧
 ## Main Technologies Used
 
 - Next.js
